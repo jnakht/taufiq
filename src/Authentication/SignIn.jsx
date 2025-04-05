@@ -2,17 +2,19 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form"
 import { AuthContext } from "../providers/AuthProvider";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 const SignIn = () => {
-    const {passwordLogin, googleLogin} = useContext(AuthContext);
+    const {passwordLogin, googleLogin, logOut} = useContext(AuthContext);
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
     } = useForm()
-
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const onSubmit = (data) => {
         // console.log("this is the data",data);
@@ -22,6 +24,8 @@ const SignIn = () => {
         passwordLogin(data.email, data.password)
         .then(result => {
             console.log(result.user);
+            // navigte to state or home
+            navigate(location?.state ? location.state : '/');
         })
         .catch(error => {
             console.error(error);
@@ -33,10 +37,18 @@ const SignIn = () => {
         googleLogin()
         .then(result => {
             console.log(result.user);
+            // navigte to state or home
+            navigate(location?.state ? location.state : '/');
         })
         .catch(error => {
             console.error(error);
         })
+    }
+    // handle LogOut 
+    const handleLogOut = () => {
+        logOut()
+        .then()
+        .catch()
     }
     return (
         <div className="hero bg-base-200 min-h-screen">
@@ -65,6 +77,7 @@ const SignIn = () => {
                         </div>
                     </form>
                     <p className="text-center pb-2">Sign In With <span onClick={handleGoogleLogin} className="text-blue-600 font-bold cursor-pointer">Google</span></p>
+                    <button onClick={handleLogOut} className="btn btn-secondary">LogOut</button>
                 </div>
             </div>
         </div>

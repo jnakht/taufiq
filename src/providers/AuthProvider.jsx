@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../Firebase/firebase";
 import { GoogleAuthProvider } from "firebase/auth";
@@ -8,6 +8,7 @@ import { GoogleAuthProvider } from "firebase/auth";
 export const AuthContext = createContext(null);
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const str = 'jisan'
     // social or goole providers
     const googleProvider = new GoogleAuthProvider();
@@ -23,19 +24,26 @@ const AuthProvider = ({children}) => {
     const googleLogin = () => {
         return signInWithPopup(auth, googleProvider);
     }
+    // log out
+    const logOut = () => {
+        return signOut(auth);
+    }
     // tracking of current user
     useEffect( () => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
+            setLoading(false);
         });
         return () => unSubscribe();
     },[])
     const authInfo = {
         user,
+        loading,
         str,
         createUser,
         googleLogin,
         passwordLogin,
+        logOut,
     };
     return (
         <AuthContext.Provider value={authInfo}>
