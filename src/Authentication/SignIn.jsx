@@ -3,8 +3,9 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form"
 import { AuthContext } from "../providers/AuthProvider";
 
+
 const SignIn = () => {
-    const {passwordLogin} = useContext(AuthContext);
+    const {passwordLogin, googleLogin} = useContext(AuthContext);
     const {
         register,
         handleSubmit,
@@ -27,7 +28,16 @@ const SignIn = () => {
         })
         
     }
-
+    const handleGoogleLogin = () => {
+        // console.log('google login works')
+        googleLogin()
+        .then(result => {
+            console.log(result.user);
+        })
+        .catch(error => {
+            console.error(error);
+        })
+    }
     return (
         <div className="hero bg-base-200 min-h-screen">
             <div className="hero-content flex-col ">
@@ -54,6 +64,7 @@ const SignIn = () => {
                             </fieldset>
                         </div>
                     </form>
+                    <p className="text-center pb-2">Sign In With <span onClick={handleGoogleLogin} className="text-blue-600 font-bold cursor-pointer">Google</span></p>
                 </div>
             </div>
         </div>
