@@ -44,12 +44,7 @@ const SignIn = () => {
             console.error(error);
         })
     }
-    // handle LogOut 
-    const handleLogOut = () => {
-        logOut()
-        .then()
-        .catch()
-    }
+    
     return (
         <div className="hero bg-base-200 min-h-screen">
             <div className="hero-content flex-col ">
@@ -77,7 +72,7 @@ const SignIn = () => {
                         </div>
                     </form>
                     <p className="text-center pb-2">Sign In With <span onClick={handleGoogleLogin} className="text-blue-600 font-bold cursor-pointer">Google</span></p>
-                    <button onClick={handleLogOut} className="btn btn-secondary">LogOut</button>
+                    
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
     const { str, createUser } = useContext(AuthContext);
@@ -10,7 +11,7 @@ const SignUp = () => {
         watch,
         formState: { errors },
     } = useForm()
-
+    const navigate = useNavigate();
     const onSubmit = (data) => {
         // console.log("this is the data",data);
         // console.log(data.email)
@@ -19,7 +20,8 @@ const SignUp = () => {
         createUser(data.email, data.password)
         .then(result => {
             console.log(result.user);
-            
+            // after sign up, navigate to home
+            navigate('/');
         })
         .catch(error => {
             console.error(error);
